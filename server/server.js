@@ -23,9 +23,22 @@ app.get('/usuario', function (req, res) {
 // post is mostly used to create new data
 app.post('/usuario', function (req, res) {
 
-        let body = req.body; // gracias al body parser
+    let body = req.body; // gracias al body parser
+    if (body.name== undefined) {
+        
+        res.status(400).json({ // working with status codes
+            ok: false,
+            messages: 'name is necesary'
+        })
 
-    res.json({ persona:body})
+
+    } else {
+        res.json({ persona:body}) 
+    }
+
+       
+
+    
 })
 
 
