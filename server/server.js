@@ -1,6 +1,19 @@
+
+//requieres 
 const express = require('express')
 const app = express()
+// *****bodyParser* *****/´
 
+const bodyParser = require('body-parser')
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false })) 
+// parse application/json
+app.use(bodyParser.json())
+// ojo el body parser complementa express, antes eran el mismo paquete pqeo se separaron
+
+//********************/
+// *****CRUD  ******//
+//*****************/
 
 // get is mostly used to fetch data, it's by default used on browsers
 app.get('/usuario', function (req, res) {
@@ -9,7 +22,10 @@ app.get('/usuario', function (req, res) {
 
 // post is mostly used to create new data
 app.post('/usuario', function (req, res) {
-    res.json('Hello usuario you are using the post method')
+
+        let body = req.body; // gracias al body parser
+
+    res.json({ persona:body})
 })
 
 
