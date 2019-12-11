@@ -1,3 +1,5 @@
+//config 
+require('../config/config')
 //requieres 
 const express = require('express')
 const app = express()
@@ -57,7 +59,7 @@ app.delete('/usuario', function (req, res) {
 
 
 // simple status alert
-app.listen(3000, () => {
-    console.log("Working on port 3000");
+app.listen(process.env.PORT, () => {
+    console.log(`Working on port ${process.env.PORT}`);
 }
 )
