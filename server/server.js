@@ -1,12 +1,19 @@
 //config 
 require('../config/config')
-//requieres 
+
+/*=========
+=requieres 
+===========*/
+
+// base de datos
+mongoose = require('mongoose');
+//express server
 const express = require('express')
 const app = express()
 // *****bodyParser* *****/´
 const bodyParser = require('body-parser')
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false })) 
+app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 // ojo el body parser complementa express, antes eran el mismo paquete pqeo se separaron
@@ -18,7 +25,7 @@ app.use(bodyParser.json())
 
 // GET is mostly used to fetch data, it's by default used on browsers
 app.get('/usuario', function (req, res) {
-    res.json('Hello usuario you are using the get method')
+    res.json('Hello usuario you are using the get method in desarrollo')
 })
 
 
@@ -27,16 +34,16 @@ app.get('/usuario', function (req, res) {
 app.post('/usuario', function (req, res) {
 
     let body = req.body; // gracias al body parser
-    if (body.name== undefined) {
-        
+    if (body.name == undefined) {
+
         res.status(400).json({ // working with status codes
             ok: false,
             messages: 'name is necesary'
         })
 
     } else {
-        res.json({ persona:body}) 
-    }    
+        res.json({ persona: body })
+    }
 })
 
 
@@ -46,7 +53,7 @@ app.put('/usuario/:id', function (req, res) {
 
     let id = req.params.id;
     res.json({
-        id, 
+        id,
 
     })
 })
@@ -55,6 +62,18 @@ app.put('/usuario/:id', function (req, res) {
 app.delete('/usuario', function (req, res) {
     res.json('Hello usuario you are using the delete method')
 })
+
+
+// conecting to  mongodb
+mongoose.connect('mongodb://localhost:27017/my_database', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true},
+    (err, res) => {
+        if (err) throw err;
+        console.log('Base de datos ONLINE');
+    });
+
 
 
 
