@@ -2,6 +2,9 @@
 const express = require('express')
 const app = express()
 
+// se importan el modelo creado models para esta ruta
+const Usuario = require('../models/ususario')
+
 // *****CRUD  ******//
 
 // GET is mostly used to fetch data, it's by default used on browsers
@@ -15,17 +18,44 @@ app.get('/usuario', function (req, res) {
 app.post('/usuario', function (req, res) {
 
     let body = req.body; // gracias al body parser
-    if (body.name == undefined) {
 
+     /* De esta forma se accede a todos los campos creados por el model/Usuarios, asi mismo est
+    pasando como parametros el objeto y lo esta igualando al esquema dado por el modelo*/
+    let usuario = new Usuario({
+        nombre: body.nombre,
+        email: body.email,
+        password: body.password,
+        role: body.role})
+
+   /*guardando en la base de datos, se utiliza un callback*/          
+   usuario.save((err, UsuarioDB)=>{
+   /* de existir un error entra en if, este usa un retur para acortar codigo
+   y utilizar un else */
+   
+    if (err) {
+      return  res.status(400).json(
+          {
+            ok: false,
+            err
+          });        
+        }
+
+     /** si no entra en el if devuelve el objeto creado */       
+    res.json({
+        ok: true,
+        usuario: UsuarioDB
+    });
+   });
+})
+  /*  if (body.name == undefined) {
         res.status(400).json({ // working with status codes
             ok: false,
             messages: 'name is necesary'
         })
-
     } else {
         res.json({ persona: body })
     }
-})
+})*/
 
 
 // PUT is mostly used to update data as well path
@@ -45,4 +75,5 @@ app.delete('/usuario', function (req, res) {
 })
 
 // exports
-module.exports = { app }
+module.exports = app ;
+// al ser una exportacion unica no necesita ser instaciada
