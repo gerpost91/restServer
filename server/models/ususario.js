@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const UNIQUE_VAlIDATOR = require ('mongoose-validator')
-//mongoose-validator' es usado en el correo para que este sea unico y evitar insercion duplicada
+const uniqueValidator = require ('mongoose-validator')
+/*mongoose-validator' es usado en el correo para que este sea unico y 
+evitar insercion duplicada*/
 
 let Schema = mongoose.Schema;
 // usado para definir un esque , es decir la estructura de un objeto en la bd
@@ -50,7 +51,11 @@ let usuario_Schema = new Schema({
 });
 
 
-module.exports = mongoose.model('Usuario',usuario_Schema);
+usuario_Schema.plugin(uniqueValidator, {message: '{PATH} Ya esta registrado'});
+/*utilizando mongoose-validator, se le pasa la la constante,y un mensaje el cual es 
+opcional pero igual util se pone el path y el mensaje*/
 
+
+module.exports = mongoose.model('Usuario',usuario_Schema);
 /* en este caso se exporta el modelo pero se le cambio el nombre a Usuario, el cual contiene
 todas las propiedades de usuario_Schema*/
