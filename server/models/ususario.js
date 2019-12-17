@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const UNIQUE_VAlIDATOR = require ('mongoose-validator')
+//mongoose-validator' es usado en el correo para que este sea unico y evitar insercion duplicada
 
 let Schema = mongoose.Schema;
 // usado para definir un esque , es decir la estructura de un objeto en la bd
@@ -13,6 +15,7 @@ let usuario_Schema = new Schema({
 
     email: {
         type: String,
+        unique: true, // garantiza que el campo sea unico en la BD, pero no es amigable al usuario
         required: [true, 'El email es necesario']
 
     },
